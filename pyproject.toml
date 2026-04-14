@@ -1,0 +1,70 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hm3301"
+version = "0.1.0"
+description = "Python driver for the Seeed HM3301 laser PM2.5 dust sensor (I²C)"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.12"
+authors = [
+    { name = "Parth Sanepara", email = "saneparth@gmail.com" }
+]
+keywords = ["hm3301", "pm2.5", "dust sensor", "air quality", "i2c", "raspberry pi", "seeed"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering",
+    "Topic :: System :: Hardware",
+]
+dependencies = [
+    "smbus2>=0.4",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "ruff>=0.4",
+    "mypy>=1.0",
+    "build",
+    "twine",
+]
+
+[project.urls]
+Homepage = "https://github.com/ParthSanepara/hm3301"
+Repository = "https://github.com/ParthSanepara/hm3301"
+"Bug Tracker" = "https://github.com/ParthSanepara/hm3301/issues"
+Changelog = "https://github.com/ParthSanepara/hm3301/blob/main/CHANGELOG.md"
+
+[project.scripts]
+hm3301-read = "hm3301.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["hm3301*"]
+
+[tool.setuptools.package-data]
+hm3301 = ["py.typed"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--cov=hm3301 --cov-report=term-missing"
