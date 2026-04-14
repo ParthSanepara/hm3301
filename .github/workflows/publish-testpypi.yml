@@ -1,8 +1,9 @@
-name: Release to PyPI
+name: Publish to TestPyPI
 
 "on":
-  release:
-    types: [published]
+  push:
+    branches: [main]
+  workflow_dispatch:
 
 jobs:
   test:
@@ -49,10 +50,10 @@ jobs:
           name: dist
           path: dist/
 
-  publish-pypi:
+  publish-testpypi:
     needs: build
     runs-on: ubuntu-latest
-    environment: pypi
+    environment: testpypi
     permissions:
       id-token: write
       contents: read
@@ -64,5 +65,8 @@ jobs:
           name: dist
           path: dist/
 
-      - name: Publish to PyPI
+      - name: Publish to TestPyPI
         uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+          skip-existing: true
