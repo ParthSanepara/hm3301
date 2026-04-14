@@ -61,6 +61,14 @@ jobs:
           name: dist
           path: dist/
 
+      - name: Verify token shape
+        env:
+          TOKEN: ${{ secrets.TEST_PYPI_API_TOKEN }}
+        run: |
+          echo "length: ${#TOKEN}"
+          echo "prefix: ${TOKEN:0:5}"
+          if [ -z "$TOKEN" ]; then echo "TOKEN IS EMPTY"; exit 1; fi
+
       - name: Publish to TestPyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
