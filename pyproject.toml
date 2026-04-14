@@ -10,7 +10,7 @@ readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.8"
 authors = [
-    { name = "Your Name", email = "you@example.com" }
+    { name = "Parth Sanepara", email = "saneparth@gmail.com" }
 ]
 keywords = ["hm3301", "pm2.5", "dust sensor", "air quality", "i2c", "raspberry pi", "seeed"]
 classifiers = [

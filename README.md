@@ -89,7 +89,7 @@ hm3301-read --samples 5 --json
 ## Development
 
 ```bash
-git clone https://github.com/yourname/hm3301
+git clone https://github.com/ParthSanepara/hm3301
 cd hm3301
 pip install -e ".[dev]"
 pytest
