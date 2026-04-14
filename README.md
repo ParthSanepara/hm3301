@@ -182,18 +182,6 @@ ruff check --fix .
 mypy .
 ```
 
-### Building & Publishing
-
-```bash
-# Build sdist + wheel
-python3 -m build
-
-# Upload to PyPI
-twine upload dist/*
-
-# Upload to TestPyPI first (recommended)
-twine upload --repository testpypi dist/*
-```
 
 ## License
 
