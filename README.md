@@ -8,13 +8,13 @@ A Python driver for the **Seeed HM3301** laser PM2.5 dust sensor, communicating 
 [![Python](https://img.shields.io/pypi/pyversions/hm3301)](https://pypi.org/project/hm3301/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ParthSanepara_hm3301&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ParthSanepara_hm3301)
+<!-- [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ParthSanepara_hm3301&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ParthSanepara_hm3301)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ParthSanepara_hm3301&metric=coverage)](https://sonarcloud.io/summary/new_code?id=ParthSanepara_hm3301)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=ParthSanepara_hm3301&metric=bugs)](https://sonarcloud.io/summary/new_code?id=ParthSanepara_hm3301)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=ParthSanepara_hm3301&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=ParthSanepara_hm3301)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=ParthSanepara_hm3301&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=ParthSanepara_hm3301)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=ParthSanepara_hm3301&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=ParthSanepara_hm3301)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=ParthSanepara_hm3301&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=ParthSanepara_hm3301)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=ParthSanepara_hm3301&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=ParthSanepara_hm3301) -->
 
 ## Features
 
