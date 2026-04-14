@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "Python driver for the Seeed HM3301 laser PM2.5 dust sensor (I²C)"
 readme = "README.md"
 license = "MIT"
-requires-python = ">=3.8"
+requires-python = ">=3.12"
 authors = [
     { name = "Parth Sanepara", email = "saneparth@gmail.com" }
 ]
@@ -19,11 +19,8 @@ classifiers = [
     "Intended Audience :: Science/Research",
     "Operating System :: POSIX :: Linux",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Scientific/Engineering",
     "Topic :: System :: Hardware",
 ]
@@ -59,13 +56,13 @@ hm3301 = ["py.typed"]
 
 [tool.ruff]
 line-length = 88
-target-version = "py38"
+target-version = "py312"
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I"]
 
 [tool.mypy]
-python_version = "3.8"
+python_version = "3.12"
 strict = true
 
 [tool.pytest.ini_options]

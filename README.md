@@ -28,6 +28,8 @@ A Python driver for the **Seeed HM3301** laser PM2.5 dust sensor, communicating 
 
 ## Installation
 
+Requires **Python 3.12+**.
+
 ```bash
 pip install hm3301
 ```

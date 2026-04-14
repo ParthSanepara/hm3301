@@ -24,6 +24,7 @@ Each read returns a 29-byte frame:
 
 import struct
 import time
+from typing import Any
 
 from .exceptions import (
     HM3301ChecksumError,
@@ -67,7 +68,7 @@ class HM3301:
     ) -> None:
         self._address = i2c_address
         self._bus_num = i2c_bus
-        self._bus = None
+        self._bus: Any = None
         self._connect()
 
     # ------------------------------------------------------------------
@@ -113,7 +114,8 @@ class HM3301:
                 time.sleep(delay)
 
         def _avg(attr: str) -> int:
-            return round(sum(getattr(r, attr) for r in readings) / len(readings))
+            total: int = sum(int(getattr(r, attr)) for r in readings)
+            return round(total / len(readings))
 
         return AirQualityReading(
             pm1_0_std=_avg("pm1_0_std"),
@@ -157,7 +159,7 @@ class HM3301:
     def _connect(self) -> None:
         """Open the I2C bus and send the select-comm command."""
         try:
-            import smbus2  # type: ignore[import-untyped]
+            import smbus2
 
             self._bus = smbus2.SMBus(self._bus_num)
             # Wake the sensor and select I2C mode
@@ -177,10 +179,10 @@ class HM3301:
     def _read_raw(self) -> bytes:
         """Read a raw 29-byte frame from the sensor."""
         try:
-            import smbus2  # type: ignore[import-untyped]
+            import smbus2
 
             msg = smbus2.i2c_msg.read(self._address, _FRAME_LEN)
-            self._bus.i2c_rdwr(msg)  # type: ignore[union-attr]
+            self._bus.i2c_rdwr(msg)
             raw = bytes(msg)
         except OSError as exc:
             raise HM3301ReadError(f"I2C read failed: {exc}") from exc
