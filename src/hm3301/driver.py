@@ -1,30 +1,29 @@
 """
 HM3301 laser PM2.5 dust sensor driver.
 
-The HM3301 communicates over I²C (default address 0x40).
+The HM3301 communicates over I2C (default address 0x40).
 Each read returns a 29-byte frame:
 
-  Byte  0      : Header (0x42 – always)
+  Byte  0      : Header (0x42 - always)
   Byte  1      : Sensor number (0x4d normally)
-  Bytes 2–3    : PM1.0 standard (big-endian uint16)
-  Bytes 4–5    : PM2.5 standard
-  Bytes 6–7    : PM10  standard
-  Bytes 8–9    : PM1.0 atmospheric
-  Bytes 10–11  : PM2.5 atmospheric
-  Bytes 12–13  : PM10  atmospheric
-  Bytes 14–15  : Particle count  >0.3 µm / 0.1 L
-  Bytes 16–17  : Particle count  >0.5 µm / 0.1 L
-  Bytes 18–19  : Particle count  >1.0 µm / 0.1 L
-  Bytes 20–21  : Particle count  >2.5 µm / 0.1 L
-  Bytes 22–23  : Particle count  >5.0 µm / 0.1 L
-  Bytes 24–25  : Particle count  >10  µm / 0.1 L
-  Bytes 26–27  : Reserved
+  Bytes 2-3    : PM1.0 standard (big-endian uint16)
+  Bytes 4-5    : PM2.5 standard
+  Bytes 6-7    : PM10  standard
+  Bytes 8-9    : PM1.0 atmospheric
+  Bytes 10-11  : PM2.5 atmospheric
+  Bytes 12-13  : PM10  atmospheric
+  Bytes 14-15  : Particle count  >0.3 um / 0.1 L
+  Bytes 16-17  : Particle count  >0.5 um / 0.1 L
+  Bytes 18-19  : Particle count  >1.0 um / 0.1 L
+  Bytes 20-21  : Particle count  >2.5 um / 0.1 L
+  Bytes 22-23  : Particle count  >5.0 um / 0.1 L
+  Bytes 24-25  : Particle count  >10  um / 0.1 L
+  Bytes 26-27  : Reserved
   Byte  28     : Checksum (sum of bytes 0-27, low byte)
 """
 
 import struct
 import time
-from typing import Optional
 
 from .exceptions import (
     HM3301ChecksumError,
@@ -33,32 +32,32 @@ from .exceptions import (
 )
 from .models import AirQualityReading
 
-# Default I²C address
+# Default I2C address
 _DEFAULT_I2C_ADDRESS = 0x40
 # Frame size in bytes
 _FRAME_LEN = 29
-# Command to select I²C mode
+# Command to select I2C mode
 _CMD_SELECT_COMM = 0x88
 
 
 class HM3301:
     """
-    Driver for the Seeed HM3301 laser PM2.5 dust sensor over I²C.
+    Driver for the Seeed HM3301 laser PM2.5 dust sensor over I2C.
 
     Parameters
     ----------
     i2c_bus : int
-        I²C bus number (e.g. 1 on Raspberry Pi).
+        I2C bus number (e.g. 1 on Raspberry Pi).
     i2c_address : int
-        I²C address of the sensor (default: 0x40).
+        I2C address of the sensor (default: 0x40).
 
     Example
     -------
     >>> from hm3301 import HM3301
-    >>> sensor = HM3301(i2c_bus=1)
-    >>> reading = sensor.read()
-    >>> print(reading)
-    AirQualityReading(PM1.0=5µg/m³, PM2.5=8µg/m³, PM10=9µg/m³, AQI='Good')
+    >>> with HM3301(i2c_bus=1) as sensor:
+    ...     reading = sensor.read()
+    ...     print(reading)
+    AirQualityReading(PM1.0=5ug/m3, PM2.5=8ug/m3, PM10=9ug/m3, AQI='Good')
     """
 
     def __init__(
@@ -77,7 +76,7 @@ class HM3301:
 
     def read(self) -> AirQualityReading:
         """
-        Read one frame from the sensor and return an :class:`AirQualityReading`.
+        Read one frame from the sensor and return an AirQualityReading.
 
         Raises
         ------
@@ -90,10 +89,12 @@ class HM3301:
         self._validate_checksum(raw)
         return self._parse_frame(raw)
 
-    def read_average(self, samples: int = 5, delay: float = 0.5) -> AirQualityReading:
+    def read_average(
+        self, samples: int = 5, delay: float = 0.5
+    ) -> AirQualityReading:
         """
         Take *samples* readings and return their average as an
-        :class:`AirQualityReading`.
+        AirQualityReading.
 
         Parameters
         ----------
@@ -106,9 +107,9 @@ class HM3301:
             raise ValueError("samples must be >= 1")
 
         readings = []
-        for _ in range(samples):
+        for i in range(samples):
             readings.append(self.read())
-            if _ < samples - 1:
+            if i < samples - 1:
                 time.sleep(delay)
 
         def _avg(attr: str) -> int:
@@ -131,7 +132,7 @@ class HM3301:
         )
 
     def close(self) -> None:
-        """Release the I²C bus resource."""
+        """Release the I2C bus resource."""
         if self._bus is not None:
             try:
                 self._bus.close()
@@ -146,7 +147,7 @@ class HM3301:
     def __enter__(self) -> "HM3301":
         return self
 
-    def __exit__(self, *_) -> None:
+    def __exit__(self, *_: object) -> None:
         self.close()
 
     # ------------------------------------------------------------------
@@ -154,12 +155,12 @@ class HM3301:
     # ------------------------------------------------------------------
 
     def _connect(self) -> None:
-        """Open the I²C bus and send the select-comm command."""
+        """Open the I2C bus and send the select-comm command."""
         try:
-            import smbus2  # type: ignore
+            import smbus2  # type: ignore[import-untyped]
 
             self._bus = smbus2.SMBus(self._bus_num)
-            # Wake the sensor and select I²C mode
+            # Wake the sensor and select I2C mode
             self._bus.write_byte(self._address, _CMD_SELECT_COMM)
             time.sleep(0.1)
         except ImportError as exc:
@@ -169,20 +170,20 @@ class HM3301:
             ) from exc
         except OSError as exc:
             raise HM3301ConnectionError(
-                f"Cannot open I²C bus {self._bus_num} at address "
+                f"Cannot open I2C bus {self._bus_num} at address "
                 f"0x{self._address:02X}: {exc}"
             ) from exc
 
     def _read_raw(self) -> bytes:
         """Read a raw 29-byte frame from the sensor."""
         try:
-            import smbus2  # type: ignore
+            import smbus2  # type: ignore[import-untyped]
 
             msg = smbus2.i2c_msg.read(self._address, _FRAME_LEN)
-            self._bus.i2c_rdwr(msg)
+            self._bus.i2c_rdwr(msg)  # type: ignore[union-attr]
             raw = bytes(msg)
         except OSError as exc:
-            raise HM3301ReadError(f"I²C read failed: {exc}") from exc
+            raise HM3301ReadError(f"I2C read failed: {exc}") from exc
 
         if len(raw) != _FRAME_LEN:
             raise HM3301ReadError(
@@ -197,7 +198,8 @@ class HM3301:
         actual = raw[-1]
         if expected != actual:
             raise HM3301ChecksumError(
-                f"Checksum mismatch: expected 0x{expected:02X}, got 0x{actual:02X}"
+                f"Checksum mismatch: expected 0x{expected:02X}, "
+                f"got 0x{actual:02X}"
             )
 
     @staticmethod

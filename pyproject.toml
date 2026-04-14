@@ -1,13 +1,13 @@
 [build-system]
 requires = ["setuptools>=68", "wheel"]
-build-backend = "setuptools.backends.legacy:build"
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "hm3301"
 version = "0.1.0"
 description = "Python driver for the Seeed HM3301 laser PM2.5 dust sensor (I²C)"
 readme = "README.md"
-license = { text = "MIT" }
+license = "MIT"
 requires-python = ">=3.8"
 authors = [
     { name = "Parth Sanepara", email = "saneparth@gmail.com" }
@@ -17,7 +17,6 @@ classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
     "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: POSIX :: Linux",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
@@ -52,8 +51,11 @@ Changelog = "https://github.com/ParthSanepara/hm3301/blob/main/CHANGELOG.md"
 hm3301-read = "hm3301.cli:main"
 
 [tool.setuptools.packages.find]
-where = ["."]
+where = ["src"]
 include = ["hm3301*"]
+
+[tool.setuptools.package-data]
+hm3301 = ["py.typed"]
 
 [tool.ruff]
 line-length = 88
