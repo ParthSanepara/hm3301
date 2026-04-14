@@ -53,10 +53,6 @@ jobs:
   publish-testpypi:
     needs: build
     runs-on: ubuntu-latest
-    environment: testpypi
-    permissions:
-      id-token: write
-      contents: read
 
     steps:
       - name: Download artifacts
@@ -69,4 +65,5 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           repository-url: https://test.pypi.org/legacy/
+          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
           skip-existing: true
